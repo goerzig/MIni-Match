@@ -1,4 +1,4 @@
-const setup = require('../commands/setup')
+const addServer = require('../commands/addServer')
 
 function findNewChannel(guild, member, oldChannel, parent) {
   foundChannel = false
@@ -31,8 +31,8 @@ function findNewChannel(guild, member, oldChannel, parent) {
 }
 
 module.exports = (client, oldState, newState) => {
+  addServer(oldState.guild)
   if (oldState.channel && oldState.channel.name.toLowerCase() != setup.next.toLowerCase() && oldState.channel.parent.name.toLowerCase() == setup.name.toLowerCase()) {
-    addServer(oldState.guild)
     if (oldState.channel.members.size == 0) {
       index = servers[oldState.guild.id].voice_channels.indexOf(oldState.channel);
       if (index > -1) {
@@ -42,7 +42,6 @@ module.exports = (client, oldState, newState) => {
     }
   }
   if (newState.channel && newState.channel.name.toLowerCase() == setup.next.toLowerCase()) {
-    addServer(newState.guild)
     if (!servers[newState.guild.id].category_id) servers[newState.guild.id].category_id = newState.channel.parent.id
     findNewChannel(newState.guild, newState.member, oldState.channel, newState.channel.parent)
   }
