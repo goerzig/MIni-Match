@@ -1,18 +1,4 @@
-servers = {}
-setup = {
-  name: 'MIni-Match',
-  next: 'Next'
-}
-function addServer(guild) {
-  if (servers.hasOwnProperty(guild.id)) return
-
-  servers[guild.id] = {
-    voice_channels: [],
-    room_id: 0,
-    room_size: 2,
-    category_id: false
-  }
-}
+const setup = require('../commands/setup')
 
 function findNewChannel(guild, member, oldChannel, parent) {
   foundChannel = false

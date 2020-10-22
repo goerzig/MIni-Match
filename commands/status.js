@@ -10,11 +10,11 @@ module.exports = (client, message) => {
         }
       }
     });
-    playerString = countPlayers > 1 ? countPlayers + " players are playing Chatroulette right now." : "1 player is playing Chatroulette right now."
+    playerString = countPlayers > 1 ? countPlayers + " players are playing " + setup.name + " right now." : "1 player is playing " + setup.name + " right now."
     roomString = countSingleRooms > 1 ? countSingleRooms + " players are alone in a room." : "1 player is alone in a room."
   }
   if (countPlayers == 0) {
-    playerString = "no one is playing Chatroulette right now."
+    playerString = "no one is playing " + setup.name + " right now."
   }
   if (countSingleRooms == 0) {
     roomString = "No one is alone in a room."
