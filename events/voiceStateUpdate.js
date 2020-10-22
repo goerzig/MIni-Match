@@ -1,4 +1,8 @@
 servers = {}
+setup = {
+  name: 'MIni-Match',
+  next: 'Next'
+}
 function addServer(guild) {
   if (servers.hasOwnProperty(guild.id)) return
 
@@ -41,7 +45,7 @@ function findNewChannel(guild, member, oldChannel, parent) {
 }
 
 module.exports = (client, oldState, newState) => {
-  if (oldState.channel && oldState.channel.name.toLowerCase() != 'next' && oldState.channel.parent.name.toLowerCase() == 'chatroulette') {
+  if (oldState.channel && oldState.channel.name.toLowerCase() != setup.next.toLowerCase() && oldState.channel.parent.name.toLowerCase() == setup.name.toLowerCase()) {
     addServer(oldState.guild)
     if (oldState.channel.members.size == 0) {
       index = servers[oldState.guild.id].voice_channels.indexOf(oldState.channel);
@@ -51,7 +55,7 @@ module.exports = (client, oldState, newState) => {
       oldState.channel.delete()
     }
   }
-  if (newState.channel && newState.channel.name.toLowerCase() == 'next') {
+  if (newState.channel && newState.channel.name.toLowerCase() == setup.next.toLowerCase()) {
     addServer(newState.guild)
     if (!servers[newState.guild.id].category_id) servers[newState.guild.id].category_id = newState.channel.parent.id
     findNewChannel(newState.guild, newState.member, oldState.channel, newState.channel.parent)
