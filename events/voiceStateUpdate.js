@@ -26,6 +26,7 @@ function findNewChannel(guild, member, oldChannel, parent) {
       member.voice.setChannel(new_vc)//.then(function(member) {console.log(new_vc.members)})
       servers[guild.id].voice_channels.push(new_vc)
       servers[guild.id].room_id ++;
+      if (servers[guild.id].room_id >= Number.MAX_VALUE) servers[guild.id].room_id = 0;
     })
   }
 }
