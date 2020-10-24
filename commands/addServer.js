@@ -12,6 +12,6 @@ module.exports = (guild) => {
     voice_channels: [],
     room_id: 0,
     room_size: 2,
-    category_id: false
+    category_ids: []
   }
 }

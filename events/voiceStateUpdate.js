@@ -22,6 +22,7 @@ function findNewChannel(guild, member, oldChannel, parent) {
     }
   }
   if (!foundChannel) {
+    //channels.get(category_id)
     guild.channels.create("Room " + servers[guild.id].room_id, {type: 'voice', parent: parent}).then(function(new_vc) {
       member.voice.setChannel(new_vc)//.then(function(member) {console.log(new_vc.members)})
       servers[guild.id].voice_channels.push(new_vc)
@@ -33,7 +34,7 @@ function findNewChannel(guild, member, oldChannel, parent) {
 
 module.exports = (client, oldState, newState) => {
   addServer(oldState.guild)
-  if (oldState.channel && oldState.channel.name.toLowerCase() != setup.next.toLowerCase() && oldState.channel.parent.name.toLowerCase() == setup.name.toLowerCase()) {
+  if (oldState.channel && oldState.channel.name.toLowerCase() != setup.next.toLowerCase() && oldState.channel.parent.name.toLowerCase().startsWith(setup.name.toLowerCase())) {
     if (oldState.channel.members.size == 0) {
       index = servers[oldState.guild.id].voice_channels.indexOf(oldState.channel);
       if (index > -1) {
@@ -42,8 +43,9 @@ module.exports = (client, oldState, newState) => {
       oldState.channel.delete()
     }
   }
-  if (newState.channel && newState.channel.name.toLowerCase() == setup.next.toLowerCase()) {
-    if (!servers[newState.guild.id].category_id) servers[newState.guild.id].category_id = newState.channel.parent.id
+  if (newState.channel && newState.channel.name.toLowerCase() == setup.next.toLowerCase() && newState.channel.parent.name.toLowerCase() == setup.name.toLowerCase()) {
+    if (servers[newState.guild.id].category_ids.length < 1) servers[newState.guild.id].category_ids.push(newState.channel.parent.id)
+    console.log(servers[newState.guild.id].category_ids)
     findNewChannel(newState.guild, newState.member, oldState.channel, newState.channel.parent)
   }
 }
