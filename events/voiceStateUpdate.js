@@ -65,7 +65,7 @@ module.exports = (client, oldState, newState) => {
           servers[servername].categories.splice(index, 1);
         }
         parent.delete()
-      }
+      } 
       oldState.channel.delete()
     }
   }
