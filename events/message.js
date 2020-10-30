@@ -5,7 +5,7 @@ const setup = require('../commands/setup')
 const addServer = require('../commands/addServer')
 
 module.exports = (client, msg) => {
-  addServer(msg.guild)
+  //addServer(msg.guild.id+" ")
   if (msg.content.startsWith('?help')) {
     return help(client, msg)
   }

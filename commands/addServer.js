@@ -4,11 +4,11 @@ setup = {
   next: 'Next'
 }
 
-module.exports = (guild) => {
+module.exports = (servername) => {
 
-  if (servers.hasOwnProperty(guild.id)) return
+  if (servers.hasOwnProperty(servername)) return
 
-  servers[guild.id] = {
+  servers[servername] = {
     voice_channels: [],
     room_id: 0,
     room_size: 2,
