@@ -1,4 +1,5 @@
 const addServer = require('../commands/addServer')
+const status = require('../commands/status')
 
 function findNewChannel(guild, member, oldChannel, servername) {
   foundChannel = false
@@ -52,7 +53,7 @@ function findNewChannel(guild, member, oldChannel, servername) {
 module.exports = (client, oldState, newState) => {
   if (oldState.channel && oldState.channel.name.toLowerCase() != setup.next.toLowerCase() && oldState.channel.parent && (oldState.channel.parent.name.toLowerCase() == setup.name.toLowerCase() || oldState.channel.parent.name.toLowerCase().startsWith(setup.name.toLowerCase()+" "))) {
     servername = (oldState.guild+" "+oldState.channel.parent.name.slice(setup.name.length+1)).trimRight()
-    addServer(servername)
+    addServer(oldState.guild, servername, oldState.channel.parent)
     if (oldState.channel.members.size == 0) {
       index = servers[servername].voice_channels.indexOf(oldState.channel);
       if (index > -1) {
@@ -65,14 +66,15 @@ module.exports = (client, oldState, newState) => {
           servers[servername].categories.splice(index, 1);
         }
         parent.delete()
-      } 
+      }
       oldState.channel.delete()
     }
   }
   if (newState.channel && newState.channel.name.toLowerCase() == setup.next.toLowerCase() && newState.channel.parent && (newState.channel.parent.name.toLowerCase() == setup.name.toLowerCase() || newState.channel.parent.name.toLowerCase().startsWith(setup.name.toLowerCase()+" "))) {
     servername = (oldState.guild+" "+newState.channel.parent.name.slice(setup.name.length+1)).trimRight()
-    addServer(servername)
+    addServer(oldState.guild, servername, newState.channel.parent)
     if (servers[servername].categories.length < 1) servers[servername].categories.push(newState.channel.parent)
     findNewChannel(newState.guild, newState.member, oldState.channel, servername)
+    status(client, newState.channel, null, false)
   }
 }

@@ -1,11 +1,16 @@
-module.exports = (client, message) => {
-  var split_msg = message.content.split(' ')
+const Discord = require('discord.js')
+module.exports = (client, channel, specifics, send) => {
   servernames = Object.keys(servers).filter(function(item, index) {
-    if (split_msg[1] && !item.includes(split_msg[1])) return false
-    return item.startsWith(String(message.guild.id));
+    if (specifics && !item.includes(split_msg[1])) return false
+    return item.startsWith(String(channel.guild.id));
   })
   if (servernames.length == 0) {
-    message.channel.send("No one is playing " + setup.name + " right now. No one is alone in a room.")
+    if (send) {channel.send("No one is playing " + setup.name + " right now. No one is alone in a room.")}
+    servers[servername].status = playerString + " " + roomString
+    servers[servername].embed.edit(new Discord.MessageEmbed()
+      .setTitle('Players playing '+ setup.name + ':')
+      .setDescription(servers[servername].status)
+      .setTimestamp())
   }
   else {
     servernames.forEach((servername) => {
@@ -22,16 +27,24 @@ module.exports = (client, message) => {
             }
           });
         })
-        playerString = countPlayers > 1 ? countPlayers + " players are playing " + setup.name + servername.slice(String(message.guild.id).length) + " right now." : "1 player is playing " + setup.name + servername.slice(String(message.guild.id).length) + " right now."
+        playerString = countPlayers > 1 ? countPlayers + " players are playing " + setup.name + servername.slice(String(channel.guild.id).length) + " right now." : "1 player is playing " + setup.name + servername.slice(String(channel.guild.id).length) + " right now."
         roomString = countSingleRooms > 1 ? countSingleRooms + " players are alone in a room." : "1 player is alone in a room."
       }
       if (countPlayers == 0) {
-        playerString = "No one is playing " + setup.name + servername.slice(String(message.guild.id).length) + " right now."
+        playerString = "No one is playing " + setup.name + servername.slice(String(channel.guild.id).length) + " right now."
       }
       if (countSingleRooms == 0) {
         roomString = "No one is alone in a room."
       }
-      message.channel.send(playerString + " " + roomString)
+      if (send) {channel.send(playerString + " " + roomString)}
+      servers[servername].status = playerString + " " + roomString
+      if (!servers[servername].embed) return
+      servers[servername].embed.then(function(embed) {
+        embed.edit(new Discord.MessageEmbed()
+          .setTitle('Players playing '+ setup.name + ':')
+          .setDescription(servers[servername].status)
+          .setTimestamp())
+        })
     })
   }
 }

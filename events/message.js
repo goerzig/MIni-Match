@@ -10,7 +10,7 @@ module.exports = (client, msg) => {
     return help(client, msg)
   }
   if (msg.content.startsWith('?status')) {
-    return status(client, msg)
+    return status(client, msg.channel, msg.content.split(' ')[1], true)
   }
   if (msg.content.startsWith('?roomsize')) {
     return roomsize(client, msg)
