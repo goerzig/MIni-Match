@@ -18,4 +18,7 @@ module.exports = (client, msg) => {
   if (msg.content.startsWith('?setup')) {
     return setup(client, msg)
   }
+  if (msg.content.startsWith('?stop')) {
+    return help(client, msg)
+  }
 }
