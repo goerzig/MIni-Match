@@ -3,6 +3,7 @@ const status = require('../commands/status')
 const roomsize = require('../commands/roomsize')
 const setup = require('../commands/setup')
 const addServer = require('../commands/addServer')
+const stop = require('../commands/stop')
 
 module.exports = (client, msg) => {
   //addServer(msg.guild.id+" ")
@@ -19,6 +20,6 @@ module.exports = (client, msg) => {
     return setup(client, msg)
   }
   if (msg.content.startsWith('?stop')) {
-    return help(client, msg)
+    return stop(client, msg)
   }
 }
