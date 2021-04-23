@@ -1,3 +1,5 @@
+const status = require('../commands/status')
+
 module.exports = (client, message) => {
   var split_msg = message.content.split(' ')
   servernames = Object.keys(servers).filter(function(item, index) {
@@ -26,5 +28,6 @@ module.exports = (client, message) => {
         })
       }
     })
+    status(client, message.channel, null, false)
   }
 }

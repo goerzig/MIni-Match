@@ -69,6 +69,7 @@ module.exports = (client, oldState, newState) => {
       }
       oldState.channel.delete()
     }
+    status(client, oldState.channel, null, false)
   }
   if (newState.channel && newState.channel.name.toLowerCase() == setup.next.toLowerCase() && newState.channel.parent && (newState.channel.parent.name.toLowerCase() == setup.name.toLowerCase() || newState.channel.parent.name.toLowerCase().startsWith(setup.name.toLowerCase()+" "))) {
     servername = (oldState.guild+" "+newState.channel.parent.name.slice(setup.name.length+1)).trimRight()
