@@ -7,6 +7,10 @@ const stop = require('../commands/stop')
 
 module.exports = (client, msg) => {
   //addServer(msg.guild.id+" ")
+  if (!msg.guild) {
+    // prevent crashing from private message
+    return
+  }
   if (msg.content.startsWith('?help')) {
     return help(client, msg)
   }
